@@ -31,6 +31,11 @@ export class MyRoom extends Room<MyRoomState> {
       console.log(`client to remove = ${JSON.stringify(clientToRemove)}`);
       clientToRemove.leave();
     });
+
+    this.onMessage('playerGuess', (client, value) => {
+      console.log(`guess by: ${client.id} = ${value}`);
+      this.state.guesses.push(value);
+    });
   }
 
   onAuth(client: Client, options: any, request: any) {

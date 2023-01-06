@@ -26,5 +26,6 @@ export class MyRoomState extends Schema {
   hostId: string;
 
   @type([Player]) players = new ArraySchema<Player>();
+  @type(['string']) guesses = new ArraySchema<string>();
   @type(Word) word: Word;
 }
