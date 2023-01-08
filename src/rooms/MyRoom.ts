@@ -34,11 +34,16 @@ export class MyRoom extends Room<MyRoomState> {
 
     this.onMessage('playerGuess', (client, value) => {
       console.log(`guess by: ${client.id} = ${value}`);
-      this.state.guesses.push(value);
+      if (!this.state.guesses.find((guess) => guess === value)) {
+        this.state.guesses.push(value);
+      }
     });
   }
 
   onAuth(client: Client, options: any, request: any) {
+    if (this.state.isGameRunning) {
+      return false;
+    }
     if (this.state.password) {
       return options.password === this.state.password;
     }
