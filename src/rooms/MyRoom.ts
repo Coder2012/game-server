@@ -6,11 +6,14 @@ import { OnJoinCommand } from './commands/onJoinCommand';
 import { OnLeaveCommand } from './commands/onLeaveCommand';
 import { words } from './data/words';
 import { Word } from './schema/Word';
+import { Guess } from './schema/Guess';
 
 let rndIndex = 0;
 
 export class MyRoom extends Room<MyRoomState> {
   dispatcher = new Dispatcher(this);
+
+  colours = ['FF69B4', 'FFA07A', 'FF8C00', 'FFA500', 'FFD700', '98FB98', '00FF7F', '20B2AA'];
 
   onCreate(options: any) {
     this.setState(new MyRoomState());
@@ -33,9 +36,15 @@ export class MyRoom extends Room<MyRoomState> {
     });
 
     this.onMessage('playerGuess', (client, value) => {
-      console.log(`guess by: ${client.id} = ${value}`);
-      if (!this.state.guesses.find((guess) => guess === value)) {
-        this.state.guesses.push(value);
+      const guess = new Guess();
+      guess.playerId = client.id;
+      guess.playerName = this.getPlayerById(client.id).name;
+      guess.colour = this.getPlayerById(client.id).colour;
+      guess.word = value;
+
+      if (!this.state.guesses.find((guess) => guess.word === value)) {
+        console.log(`guess by: ${guess.playerName} = ${value}`);
+        this.state.guesses.push(guess);
       }
     });
   }
@@ -54,6 +63,7 @@ export class MyRoom extends Room<MyRoomState> {
     this.dispatcher.dispatch(new OnJoinCommand(), {
       client,
       options,
+      colours: this.colours,
     });
   }
 

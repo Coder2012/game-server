@@ -6,6 +6,7 @@ import { Player } from '../schema/Player';
 type Params = {
   client: Client;
   options: any;
+  colours: string[];
 };
 
 export class OnJoinCommand extends Command<
@@ -13,13 +14,15 @@ export class OnJoinCommand extends Command<
   {
     client: Client;
     options: any;
+    colours: string[];
   }
 > {
-  execute({ client, options }: Params) {
+  execute({ client, options, colours }: Params) {
     console.log(client.sessionId, `joined! ${JSON.stringify(options)}`);
     const player = new Player();
     player.id = client.id;
     player.name = options.playerName;
+    player.colour = colours[this.state.players.length];
     this.state.players.push(player);
 
     if (this.state.players.length === 1) {
