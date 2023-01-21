@@ -1,6 +1,7 @@
 import { Schema, ArraySchema, type, filter } from '@colyseus/schema';
 import { Guess } from './Guess';
 import { Player } from './Player';
+import { Winner } from './Winner';
 import { Word } from './Word';
 
 export class MyRoomState extends Schema {
@@ -25,6 +26,7 @@ export class MyRoomState extends Schema {
   })
   @type('string')
   hostId: string;
+  @type(Winner) winner: Winner;
 
   @type([Player]) players = new ArraySchema<Player>();
   @type([Guess]) guesses = new ArraySchema<Guess>();

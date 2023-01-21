@@ -7,8 +7,11 @@ import { OnLeaveCommand } from './commands/onLeaveCommand';
 import { words } from './data/words';
 import { Word } from './schema/Word';
 import { Guess } from './schema/Guess';
+import { Player } from './schema/Player';
+import { Winner } from './schema/Winner';
+import { ArraySchema } from '@colyseus/schema';
 
-let rndIndex = 0;
+let word: { text: string; description: string };
 
 export class MyRoom extends Room<MyRoomState> {
   dispatcher = new Dispatcher(this);
@@ -22,10 +25,7 @@ export class MyRoom extends Room<MyRoomState> {
 
     this.onMessage('startGame', (client, id) => {
       if (this.state.hostId === id) {
-        this.state.isGameRunning = true;
-        const word = words[rndIndex];
-        word.text = word.text.replace(/[a-zA-Z]/g, '_');
-        this.state.word = new Word(word);
+        this.start();
       }
     });
 
@@ -35,16 +35,24 @@ export class MyRoom extends Room<MyRoomState> {
       clientToRemove.leave();
     });
 
-    this.onMessage('playerGuess', (client, value) => {
+    this.onMessage('playerGuess', (client, value: string) => {
+      const playerId = client.id;
       const guess = new Guess();
-      guess.playerId = client.id;
-      guess.playerName = this.getPlayerById(client.id).name;
-      guess.colour = this.getPlayerById(client.id).colour;
-      guess.word = value;
+      guess.playerId = playerId;
+      guess.playerName = this.getPlayerById(playerId).name;
+      guess.colour = this.getPlayerById(playerId).colour;
+      guess.word = value.toLocaleLowerCase();
 
       if (!this.state.guesses.find((guess) => guess.word === value)) {
         console.log(`guess by: ${guess.playerName} = ${value}`);
         this.state.guesses.push(guess);
+
+        if (this.isGuessCorrect(guess.word)) {
+          const winner = new Winner();
+          winner.player = this.getPlayerById(playerId);
+          winner.word = word.text;
+          this.endGame(winner);
+        }
       }
     });
   }
@@ -78,5 +86,25 @@ export class MyRoom extends Room<MyRoomState> {
     console.log('room', this.roomId, 'disposing...');
   }
 
-  getPlayerById = (id: string) => this.state.players.find((player) => player.id === id);
+  getPlayerById(id: string) {
+    return this.state.players.find((player) => player.id === id);
+  }
+
+  isGuessCorrect(guess: string) {
+    return guess === word.text.toLowerCase();
+  }
+
+  endGame(winner: Winner) {
+    this.state.winner = winner;
+    this.state.isGameRunning = false;
+  }
+
+  start() {
+    this.state.guesses = new ArraySchema<Guess>();
+    this.state.winner = null;
+    word = words[Math.floor(Math.random() * words.length)];
+    const { text, description } = word;
+    this.state.word = new Word({ text: text.replace(/[a-zA-Z]/g, '_'), description });
+    this.state.isGameRunning = true;
+  }
 }
