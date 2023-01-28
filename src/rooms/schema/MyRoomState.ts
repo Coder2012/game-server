@@ -6,6 +6,7 @@ import { Word } from './Word';
 
 export class MyRoomState extends Schema {
   @type('boolean') isGameRunning: boolean;
+  @type('boolean') isGameOver: boolean;
   @type('string') password: string;
 
   @filter(function (client, value, root) {

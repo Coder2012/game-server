@@ -23,6 +23,7 @@ export class OnJoinCommand extends Command<
     player.id = client.id;
     player.name = options.playerName;
     player.colour = colours[this.state.players.length];
+    player.score = 0;
     this.state.players.push(player);
 
     if (this.state.players.length === 1) {

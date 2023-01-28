@@ -4,4 +4,5 @@ export class Player extends Schema {
   @type('string') id: string;
   @type('string') name: string;
   @type('string') colour: string;
+  @type('number') score: number;
 }

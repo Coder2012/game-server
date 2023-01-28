@@ -11,6 +11,7 @@ import { Player } from './schema/Player';
 import { Winner } from './schema/Winner';
 import { ArraySchema } from '@colyseus/schema';
 
+const WINNING_SCORE = 5;
 let word: { text: string; description: string };
 
 export class MyRoom extends Room<MyRoomState> {
@@ -19,13 +20,18 @@ export class MyRoom extends Room<MyRoomState> {
   colours = ['FF69B4', 'FFA07A', 'FF8C00', 'FFA500', 'FFD700', '98FB98', '00FF7F', '20B2AA'];
 
   onCreate(options: any) {
+    this.clock.start();
+
     this.setState(new MyRoomState());
+    this.state.isGameOver = true;
     this.state.isGameRunning = false;
     this.state.password = options.password;
 
     this.onMessage('startGame', (client, id) => {
+      this.state.isGameOver = false;
+
       if (this.state.hostId === id) {
-        this.start();
+        this.nextWord();
       }
     });
 
@@ -48,10 +54,12 @@ export class MyRoom extends Room<MyRoomState> {
         this.state.guesses.push(guess);
 
         if (this.isGuessCorrect(guess.word)) {
-          const winner = new Winner();
-          winner.player = this.getPlayerById(playerId);
-          winner.word = word.text;
-          this.endGame(winner);
+          const player = this.getPlayerById(playerId);
+          this.correctGuess(player);
+
+          if (this.isGameOver(player)) {
+            this.gameOver(player);
+          }
         }
       }
     });
@@ -94,17 +102,36 @@ export class MyRoom extends Room<MyRoomState> {
     return guess === word.text.toLowerCase();
   }
 
-  endGame(winner: Winner) {
-    this.state.winner = winner;
-    this.state.isGameRunning = false;
+  isGameOver(player: Player) {
+    return player.score == WINNING_SCORE;
   }
 
-  start() {
+  correctGuess(player: Player) {
+    player.score++;
+
+    const winner = new Winner();
+    winner.player = player;
+    winner.word = word.text;
+
+    this.state.winner = winner;
+    this.state.isGameRunning = false;
+
+    this.clock.setTimeout(() => {
+      this.nextWord();
+    }, 3000);
+  }
+
+  nextWord() {
     this.state.guesses = new ArraySchema<Guess>();
     this.state.winner = null;
+
     word = words[Math.floor(Math.random() * words.length)];
     const { text, description } = word;
     this.state.word = new Word({ text: text.replace(/[a-zA-Z]/g, '_'), description });
     this.state.isGameRunning = true;
+  }
+
+  gameOver(player: Player) {
+    this.state.isGameOver = true;
   }
 }
