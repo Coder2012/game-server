@@ -33,6 +33,7 @@ export class MyRoom extends Room<MyRoomState> {
       if (this.state.hostId === id) {
         this.nextWord();
       }
+      this.broadcast('navigation', 'game');
     });
 
     this.onMessage('removePlayer', (client, id) => {
@@ -133,5 +134,6 @@ export class MyRoom extends Room<MyRoomState> {
 
   gameOver(player: Player) {
     this.state.isGameOver = true;
+    this.broadcast('navigation', 'finish');
   }
 }
