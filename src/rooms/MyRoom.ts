@@ -4,12 +4,13 @@ import { Dispatcher } from '@colyseus/command';
 
 import { OnJoinCommand } from './commands/onJoinCommand';
 import { OnLeaveCommand } from './commands/onLeaveCommand';
-import { words } from './data/words';
+// import { words } from './data/words';
 import { Word } from './schema/Word';
 import { Guess } from './schema/Guess';
 import { Player } from './schema/Player';
 import { Winner } from './schema/Winner';
 import { ArraySchema } from '@colyseus/schema';
+import { OnLoadCommand } from './commands/onLoadCommand';
 
 const WINNING_SCORE = 5;
 let word: { text: string; description: string };
@@ -17,9 +18,15 @@ let word: { text: string; description: string };
 export class MyRoom extends Room<MyRoomState> {
   dispatcher = new Dispatcher(this);
 
+  words: any = [];
   colours = ['FF69B4', 'FFA07A', 'FF8C00', 'FFA500', 'FFD700', '98FB98', '00FF7F', '20B2AA'];
 
+  constructor() {
+    super();
+  }
+
   onCreate(options: any) {
+    this.dispatcher.dispatch(new OnLoadCommand());
     this.clock.start();
 
     this.setState(new MyRoomState());
@@ -126,7 +133,7 @@ export class MyRoom extends Room<MyRoomState> {
     this.state.guesses = new ArraySchema<Guess>();
     this.state.winner = null;
 
-    word = words[Math.floor(Math.random() * words.length)];
+    word = this.words[Math.floor(Math.random() * this.words.length)];
     const { text, description } = word;
     this.state.word = new Word({ text: text.replace(/[a-zA-Z]/g, '_'), description });
     this.state.isGameRunning = true;
