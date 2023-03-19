@@ -2,7 +2,7 @@ import { Schema, ArraySchema, type, filter } from '@colyseus/schema';
 import { Guess } from './Guess';
 import { Player } from './Player';
 import { Winner } from './Winner';
-import { Word } from './Word';
+import { Question } from './Question';
 
 export class MyRoomState extends Schema {
   @type('boolean') isGameRunning: boolean;
@@ -31,5 +31,6 @@ export class MyRoomState extends Schema {
 
   @type([Player]) players = new ArraySchema<Player>();
   @type([Guess]) guesses = new ArraySchema<Guess>();
-  @type(Word) word: Word;
+  @type(Question) question: Question;
+  @type('string') answer: string;
 }

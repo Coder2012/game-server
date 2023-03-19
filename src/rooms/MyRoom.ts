@@ -1,24 +1,29 @@
+const TRIVIA = require('./data/trivia.json');
+
 import { Room, Client } from 'colyseus';
 import { MyRoomState } from './schema/MyRoomState';
 import { Dispatcher } from '@colyseus/command';
 
 import { OnJoinCommand } from './commands/onJoinCommand';
 import { OnLeaveCommand } from './commands/onLeaveCommand';
-// import { words } from './data/words';
-import { Word } from './schema/Word';
+import { Question, Options } from './schema/Question';
 import { Guess } from './schema/Guess';
 import { Player } from './schema/Player';
-import { Winner } from './schema/Winner';
 import { ArraySchema } from '@colyseus/schema';
 import { OnLoadCommand } from './commands/onLoadCommand';
 
 const WINNING_SCORE = 5;
-let word: { text: string; description: string };
+let question: {
+  category: string;
+  description: string;
+  options: { A: string; B: string; C: string; D: string };
+  answer: string;
+};
 
 export class MyRoom extends Room<MyRoomState> {
   dispatcher = new Dispatcher(this);
 
-  words: any = [];
+  questions: any = [];
   colours = ['FF69B4', 'FFA07A', 'FF8C00', 'FFA500', 'FFD700', '98FB98', '00FF7F', '20B2AA'];
 
   constructor() {
@@ -26,7 +31,8 @@ export class MyRoom extends Room<MyRoomState> {
   }
 
   onCreate(options: any) {
-    this.dispatcher.dispatch(new OnLoadCommand());
+    // this.dispatcher.dispatch(new OnLoadCommand());
+    this.questions = TRIVIA.questions;
     this.clock.start();
 
     this.setState(new MyRoomState());
@@ -38,7 +44,8 @@ export class MyRoom extends Room<MyRoomState> {
       this.state.isGameOver = false;
 
       if (this.state.hostId === id) {
-        this.nextWord();
+        this.nextQuestion();
+        this.startAnswerTimer();
       }
       this.broadcast('navigation', 'game');
     });
@@ -50,26 +57,8 @@ export class MyRoom extends Room<MyRoomState> {
     });
 
     this.onMessage('playerGuess', (client, value: string) => {
-      const playerId = client.id;
-      const guess = new Guess();
-      guess.playerId = playerId;
-      guess.playerName = this.getPlayerById(playerId).name;
-      guess.colour = this.getPlayerById(playerId).colour;
-      guess.word = value.toLocaleLowerCase();
-
-      if (!this.state.guesses.find((guess) => guess.word === value)) {
-        console.log(`guess by: ${guess.playerName} = ${value}`);
-        this.state.guesses.push(guess);
-
-        if (this.isGuessCorrect(guess.word)) {
-          const player = this.getPlayerById(playerId);
-          this.correctGuess(player);
-
-          if (this.isGameOver(player)) {
-            this.gameOver(player);
-          }
-        }
-      }
+      const player = this.getPlayerById(client.id);
+      player.lastAnswer = value;
     });
   }
 
@@ -107,39 +96,62 @@ export class MyRoom extends Room<MyRoomState> {
   }
 
   isGuessCorrect(guess: string) {
-    return guess === word.text.toLowerCase();
+    return guess === this.questions.text.toLowerCase();
   }
 
   isGameOver(player: Player) {
     return player.score == WINNING_SCORE;
   }
 
-  correctGuess(player: Player) {
-    player.score++;
-
-    const winner = new Winner();
-    winner.player = player;
-    winner.word = word.text;
-
-    this.state.winner = winner;
-    this.state.isGameRunning = false;
-
-    this.clock.setTimeout(() => {
-      this.nextWord();
-    }, 3000);
-  }
-
-  nextWord() {
+  nextQuestion() {
     this.state.guesses = new ArraySchema<Guess>();
-    this.state.winner = null;
 
-    word = this.words[Math.floor(Math.random() * this.words.length)];
-    const { text, description } = word;
-    this.state.word = new Word({ text: text.replace(/[a-zA-Z]/g, '_'), description });
+    question = this.questions[Math.floor(Math.random() * this.questions.length)];
+    const { category, description, options } = question;
+
+    const opts = new Options(options);
+    this.state.question = new Question({ category, description, options: opts });
+    console.log(JSON.stringify(this.state.question));
     this.state.isGameRunning = true;
   }
 
-  gameOver(player: Player) {
+  startAnswerTimer() {
+    this.clock.setTimeout(() => {
+      this.state.answer = question.answer;
+      this.checkScores();
+    }, 5000);
+  }
+
+  startNextQuestionTimer() {
+    this.clock.setTimeout(() => {
+      this.state.answer = null;
+      this.clearLastAnswers();
+      this.nextQuestion();
+      this.startAnswerTimer();
+    }, 5000);
+  }
+
+  checkScores() {
+    this.state.players.forEach((player) => {
+      if (player.lastAnswer === question.answer) {
+        player.score++;
+      }
+    });
+
+    const playersFinished = this.state.players.filter((player) => player.score === 5);
+
+    if (playersFinished.length === 0) {
+      this.startNextQuestionTimer();
+    } else {
+      this.gameOver();
+    }
+  }
+
+  clearLastAnswers() {
+    this.state.players.forEach((player) => (player.lastAnswer = null));
+  }
+
+  gameOver() {
     this.state.isGameOver = true;
     this.broadcast('navigation', 'finish');
   }

@@ -22,7 +22,7 @@ export class OnLoadCommand extends Command<
       if (err) {
         console.log(`Error loading S3 object ${err}'`);
       } else {
-        this.room.words = JSON.parse(data.Body.toString()).questions;
+        this.room.questions = JSON.parse(data.Body.toString()).questions;
       }
     });
   }
