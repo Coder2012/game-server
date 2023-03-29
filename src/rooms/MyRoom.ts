@@ -119,7 +119,7 @@ export class MyRoom extends Room<MyRoomState> {
     this.clock.setTimeout(() => {
       this.state.answer = question.answer;
       this.checkScores();
-    }, 5000);
+    }, 10000);
   }
 
   startNextQuestionTimer() {
@@ -128,7 +128,7 @@ export class MyRoom extends Room<MyRoomState> {
       this.clearLastAnswers();
       this.nextQuestion();
       this.startAnswerTimer();
-    }, 5000);
+    }, 8000);
   }
 
   checkScores() {
