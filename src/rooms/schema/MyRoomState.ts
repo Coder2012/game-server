@@ -1,9 +1,12 @@
 import { Schema, ArraySchema, type, filter } from '@colyseus/schema';
+import { Guess } from './Guess';
 import { Player } from './Player';
-import { Word } from './Word';
+import { Winner } from './Winner';
+import { Question } from './Question';
 
 export class MyRoomState extends Schema {
   @type('boolean') isGameRunning: boolean;
+  @type('boolean') isGameOver: boolean;
   @type('string') password: string;
 
   @filter(function (client, value, root) {
@@ -24,7 +27,10 @@ export class MyRoomState extends Schema {
   })
   @type('string')
   hostId: string;
+  @type(Winner) winner: Winner;
 
   @type([Player]) players = new ArraySchema<Player>();
-  @type(Word) word: Word;
+  @type([Guess]) guesses = new ArraySchema<Guess>();
+  @type(Question) question: Question;
+  @type('string') answer: string;
 }

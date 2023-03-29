@@ -6,6 +6,7 @@
   "main": "lib/index.js",
   "scripts": {
     "start": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "debug": "ts-node-dev --inspect --respawn --transpile-only src/index.ts",
     "loadtest": "colyseus-loadtest loadtest/example.ts --room my_room --numClients 2",
     "build": "npm run clean && tsc && node node_modules/copyfiles/copyfiles package.json ./lib && node node_modules/copyfiles/copyfiles arena.env ./lib",
     "clean": "node node_modules/rimraf/bin lib",
@@ -34,6 +35,7 @@
     "@colyseus/arena": "^0.14.22",
     "@colyseus/command": "^0.2.1",
     "@colyseus/monitor": "^0.14.20",
+    "aws-sdk": "^2.1332.0",
     "colyseus": "^0.14.20",
     "cors": "^2.8.5",
     "express": "^4.16.4"
