@@ -44,10 +44,10 @@ export class MyRoom extends Room<MyRoomState> {
       this.state.isGameOver = false;
 
       if (this.state.hostId === id) {
+        this.broadcast('navigation', 'game');
         this.nextQuestion();
         this.startAnswerTimer();
       }
-      this.broadcast('navigation', 'game');
     });
 
     this.onMessage('removePlayer', (client, id) => {
@@ -119,7 +119,8 @@ export class MyRoom extends Room<MyRoomState> {
     this.clock.setTimeout(() => {
       this.state.answer = question.answer;
       this.checkScores();
-    }, 10000);
+    }, 8000);
+    this.broadcast('timer', 8000);
   }
 
   startNextQuestionTimer() {
