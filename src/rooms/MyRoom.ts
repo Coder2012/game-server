@@ -115,12 +115,34 @@ export class MyRoom extends Room<MyRoomState> {
     this.state.isGameRunning = true;
   }
 
+  // startAnswerTimer() {
+  //   this.clock.setTimeout(() => {
+  //     this.state.answer = question.answer;
+  //     this.checkScores();
+  //   }, 8000);
+  //   this.broadcast('timer', 8000);
+  // }
+
   startAnswerTimer() {
-    this.clock.setTimeout(() => {
-      this.state.answer = question.answer;
-      this.checkScores();
-    }, 8000);
-    this.broadcast('timer', 8000);
+    const timerDuration = 8000;
+    const updateTime = 1000; // Send updates every 1000 ms (1 second)
+
+    let timeElapsed = 0;
+
+    const interval = this.clock.setInterval(() => {
+      timeElapsed += updateTime;
+      const remainingTime = timerDuration - timeElapsed;
+
+      console.log(remainingTime);
+
+      this.broadcast('timer', Math.max(remainingTime, 0));
+
+      if (remainingTime <= 0) {
+        this.state.answer = question.answer;
+        this.checkScores();
+        interval.clear(); // Clear the interval using the clear() method
+      }
+    }, updateTime);
   }
 
   startNextQuestionTimer() {

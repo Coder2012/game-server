@@ -219,6 +219,282 @@
         "D": "A Christmas Carol"
       },
       "answer": "D"
+    },
+
+    {
+      "category": "Olympics",
+      "description": "Which city hosted the 2016 Summer Olympics?",
+      "options": {
+        "A": "Rio de Janeiro",
+        "B": "London",
+        "C": "Beijing",
+        "D": "Tokyo"
+      },
+      "answer": "A"
+    },
+    {
+      "category": "Olympics",
+      "description": "Which country has won the most total medals in the history of the Summer Olympics?",
+      "options": {
+        "A": "Russia",
+        "B": "China",
+        "C": "United States",
+        "D": "Germany"
+      },
+      "answer": "C"
+    },
+    {
+      "category": "World Cup Football",
+      "description": "Which country won the 2018 FIFA World Cup?",
+      "options": {
+        "A": "Germany",
+        "B": "Brazil",
+        "C": "France",
+        "D": "Argentina"
+      },
+      "answer": "C"
+    },
+    {
+      "category": "World Cup Football",
+      "description": "Which player holds the record for the most goals scored in a single FIFA World Cup tournament?",
+      "options": {
+        "A": "Pele",
+        "B": "Just Fontaine",
+        "C": "Miroslav Klose",
+        "D": "Ronaldo"
+      },
+      "answer": "B"
+    },
+    {
+      "category": "Science",
+      "description": "What is the chemical symbol for gold?",
+      "options": {
+        "A": "Au",
+        "B": "Ag",
+        "C": "Pt",
+        "D": "Fe"
+      },
+      "answer": "A"
+    },
+    {
+      "category": "Science",
+      "description": "Which planet is known as the 'Red Planet'?",
+      "options": {
+        "A": "Venus",
+        "B": "Mars",
+        "C": "Jupiter",
+        "D": "Saturn"
+      },
+      "answer": "B"
+    },
+    {
+      "category": "Olympics",
+      "description": "What is the official distance of a marathon race in kilometers?",
+      "options": {
+        "A": "40.195",
+        "B": "42.195",
+        "C": "38.195",
+        "D": "44.195"
+      },
+      "answer": "B"
+    },
+    {
+      "category": "World Cup Football",
+      "description": "Which country has won the most FIFA World Cup titles?",
+      "options": {
+        "A": "Argentina",
+        "B": "Brazil",
+        "C": "Germany",
+        "D": "Italy"
+      },
+      "answer": "B"
+    },
+    {
+      "category": "Science",
+      "description": "What is the largest organ in the human body?",
+      "options": {
+        "A": "Liver",
+        "B": "Lungs",
+        "C": "Skin",
+        "D": "Brain"
+      },
+      "answer": "C"
+    },
+    {
+      "category": "Science",
+      "description": "What is the speed of light in a vacuum, approximately?",
+      "options": {
+        "A": "186,282 miles per second",
+        "B": "200,000 miles per second",
+        "C": "150,000 miles per second",
+        "D": "300,000 miles per second"
+      },
+      "answer": "A"
+    },
+    {
+      "category": "Popular Music",
+      "description": "Which famous pop star is known as the 'Queen of Pop'?",
+      "options": {
+        "A": "Madonna",
+        "B": "Britney Spears",
+        "C": "Lady Gaga",
+        "D": "Beyoncé"
+      },
+      "answer": "A"
+    },
+    {
+      "category": "Popular Music",
+      "description": "Which band released the album 'Dark Side of the Moon'?",
+      "options": {
+        "A": "Led Zeppelin",
+        "B": "Pink Floyd",
+        "C": "The Rolling Stones",
+        "D": "The Beatles"
+      },
+      "answer": "B"
+    },
+    {
+      "category": "Popular Music",
+      "description": "Who composed the music for the 'The Lion King'?",
+      "options": {
+        "A": "Alan Menken",
+        "B": "Hans Zimmer",
+        "C": "John Williams",
+        "D": "James Horner"
+      },
+      "answer": "B"
+    },
+    {
+      "category": "Popular Music",
+      "description": "Which artist released the hit single 'Shape of You'?",
+      "options": {
+        "A": "Shawn Mendes",
+        "B": "Ed Sheeran",
+        "C": "Justin Bieber",
+        "D": "Sam Smith"
+      },
+      "answer": "B"
+    },
+    {
+      "category": "Popular Music",
+      "description": "Which Swedish pop group won the Eurovision Song Contest in 1974?",
+      "options": {
+        "A": "Roxette",
+        "B": "Ace of Base",
+        "C": "ABBA",
+        "D": "A-ha"
+      },
+      "answer": "C"
+    },
+    {
+      "category": "80s Films",
+      "description": "Which 1985 film features Michael J. Fox as a teenager who travels back in time?",
+      "options": {
+        "A": "Back to the Future",
+        "B": "The Goonies",
+        "C": "Ferris Bueller's Day Off",
+        "D": "Ghostbusters"
+      },
+      "answer": "A"
+    },
+    {
+      "category": "80s Films",
+      "description": "What is the name of the main character in the 1984 film 'The Karate Kid'?",
+      "options": {
+        "A": "Johnny Lawrence",
+        "B": "Daniel LaRusso",
+        "C": "Miyagi",
+        "D": "Bobby Brown"
+      },
+      "answer": "B"
+    },
+    {
+      "category": "80s Films",
+      "description": "Which 1986 film directed by James Cameron is a sequel to the 1979 film 'Alien'?",
+      "options": {
+        "A": "Predator",
+        "B": "The Terminator",
+        "C": "Aliens",
+        "D": "The Abyss"
+      },
+      "answer": "C"
+    },
+    {
+      "category": "80s Films",
+      "description": "Which 1982 film directed by Steven Spielberg tells the story of a young boy who befriends an extraterrestrial?",
+      "options": {
+        "A": "E.T. the Extra-Terrestrial",
+        "B": "Close Encounters of the Third Kind",
+        "C": "The Thing",
+        "D": "Poltergeist"
+      },
+      "answer": "A"
+    },
+    {
+      "category": "80s Films",
+      "description": "What is the name of the fictional character played by Harrison Ford in the 1981 film 'Raiders of the Lost Ark'?",
+      "options": {
+        "A": "Rick Deckard",
+        "B": "Jack Ryan",
+        "C": "Han Solo",
+        "D": "Indiana Jones"
+      },
+      "answer": "D"
+    },
+    {
+      "category": "Spaceflight",
+      "description": "Who was the first human to journey into outer space?",
+      "options": {
+        "A": "Neil Armstrong",
+        "B": "John Glenn",
+        "C": "Yuri Gagarin",
+        "D": "Alan Shepard"
+      },
+      "answer": "C"
+    },
+    {
+      "category": "Spaceflight",
+      "description": "What was the name of the first artificial Earth satellite?",
+      "options": {
+        "A": "Explorer 1",
+        "B": "Telstar",
+        "C": "Sputnik 1",
+        "D": "Vostok 1"
+      },
+      "answer": "C"
+    },
+    {
+      "category": "Spaceflight",
+      "description": "Which Apollo mission was the first to land humans on the Moon?",
+      "options": {
+        "A": "Apollo 11",
+        "B": "Apollo 8",
+        "C": "Apollo 13",
+        "D": "Apollo 7"
+      },
+      "answer": "A"
+    },
+    {
+      "category": "Spaceflight",
+      "description": "What was the name of the first reusable spacecraft developed by NASA?",
+      "options": {
+        "A": "Apollo",
+        "B": "Gemini",
+        "C": "Mercury",
+        "D": "Space Shuttle"
+      },
+      "answer": "D"
+    },
+    {
+      "category": "Spaceflight",
+      "description": "Which private company was the first to launch a spacecraft to the International Space Station?",
+      "options": {
+        "A": "SpaceX",
+        "B": "Blue Origin",
+        "C": "Orbital Sciences",
+        "D": "Virgin Galactic"
+      },
+      "answer": "A"
     }
   ]
 }
