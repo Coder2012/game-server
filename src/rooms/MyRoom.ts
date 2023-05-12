@@ -31,8 +31,10 @@ export class MyRoom extends Room<MyRoomState> {
   }
 
   onCreate(options: any) {
-    // this.dispatcher.dispatch(new OnLoadCommand());
-    this.questions = TRIVIA.questions;
+    this.dispatcher.dispatch(new OnLoadCommand(), {
+      questions: TRIVIA.questions,
+    });
+
     this.clock.start();
 
     this.setState(new MyRoomState());
