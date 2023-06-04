@@ -17,7 +17,8 @@ export class OnLoadCommand extends Command<
       // Use the IAM role attached to the EC2 instance in production
       AWS.config.credentials = new AWS.EC2MetadataCredentials();
     } else {
-      this.room.questions = questions;
+      AWS.config.credentials = new AWS.EC2MetadataCredentials();
+      // this.room.questions = questions;
     }
 
     const S3 = new AWS.S3();
