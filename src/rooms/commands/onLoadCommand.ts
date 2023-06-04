@@ -1,5 +1,4 @@
 import { Command } from '@colyseus/command';
-import { Client } from 'colyseus';
 import { MyRoom } from '../MyRoom';
 import AWS from 'aws-sdk';
 
