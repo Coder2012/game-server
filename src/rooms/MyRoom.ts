@@ -1,4 +1,4 @@
-const TRIVIA = require('./data/trivia.json');
+// const TRIVIA = require('./data/trivia.json');
 
 import { Room, Client } from 'colyseus';
 import { MyRoomState } from './schema/MyRoomState';
@@ -32,7 +32,7 @@ export class MyRoom extends Room<MyRoomState> {
 
   onCreate(options: any) {
     this.dispatcher.dispatch(new OnLoadCommand(), {
-      questions: TRIVIA.questions,
+      questions: [], //TRIVIA.questions,
     });
 
     this.clock.start();
